@@ -10,8 +10,8 @@ import Success from "../containers/Success";
 
 function App() {
   return (
-    <Layout>
-      <BrowserRouter>
+    <BrowserRouter>
+      <Layout>
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route exact path="/checkout" element={<Checkout />} />
@@ -20,8 +20,8 @@ function App() {
           <Route exact path="/checkout/success" element={<Success />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
-    </Layout>
+      </Layout>
+    </BrowserRouter>
   );
 }
 
