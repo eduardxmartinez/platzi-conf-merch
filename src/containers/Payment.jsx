@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { PayPalButton } from 'react-paypal-button-v2';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 import "../styles/components/Payment.css"
 
 function Payment() {
  const {state, addNewOrder} = useContext(AppContext);
  const {cart, buyer} = state;
+ const navigate = useNavigate();
 
  const paypalOptions = {
   clientId: "AR0EDZCpSLfjl8uPHgQNvJUIPDwbZkybg3Xp5JFqnIUdHwFdJW457IeZA3A91qvraPzs0gbwGEi62HNe",
@@ -20,15 +21,14 @@ function Payment() {
  }
 
  const handlePaymentSuccess = (data) => {
-  console.log(data);
   if(data.status === "COMPLETED") {
     const newOrder = {
       buyer,
       product: cart,
       payment: data
     }
-    addNewOrder(newOrder)
-    Navigate("/checkout/success")
+    addNewOrder(newOrder, navigate('/checkout/success'));
+    
   }
  }
 
@@ -42,7 +42,7 @@ function Payment() {
     <div className="Payment">
       <div className="Payment-content">
         <h3>Resumen del pedido:</h3>
-        {cart.map((item)=>(
+        {cart.map((item) => (
           <div className="Payment-item" key={item.title}>
             <div className="Payment-element">
               <h4>{item.title}</h4>
@@ -50,20 +50,21 @@ function Payment() {
             </div>
           </div>
         ))}
+        <h3>Precio Total: ${handleSumTotal()}</h3>
         <div className="Payment-button">
           <PayPalButton
             paypalOptions={paypalOptions}
             buttonStyles={buttonStyles}
             amount={handleSumTotal()}
-            onPaymentStart={()=>console.log("Start Payment")}
-            onSuccess={data => handlePaymentSuccess(data)}
-            onError={error => console.log(error)}
-            onCancel={data => console.log(data)}
+            onPaymentStart={() => console.log('Start Payment')}
+            onSuccess={(data) => handlePaymentSuccess(data)}
+            onError={(error) => console.log(error)}
+            onCancel={(data) => console.log(data)}
           />
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Payment;
