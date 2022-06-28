@@ -8,7 +8,7 @@ function Header() {
   const { cart } = state;
 
   return (
-    <div className="Header">
+    <header className="Header">
       <h1 className="Header-title">
         <Link to="/">PlatziConf Merch</Link>
       </h1>
@@ -18,7 +18,7 @@ function Header() {
         </Link>
         {cart.length > 0 && <div className='Header-alert'>{cart.length} </div>}
       </div>
-    </div>
+    </header>
   );
 }
 
